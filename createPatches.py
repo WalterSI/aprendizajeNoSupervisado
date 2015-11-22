@@ -15,7 +15,7 @@ import h5py
 #def getPatches(numPatches, patchSize):
 
 patchesPerImage = 2
-numImages = 10000
+numImages = 1000
 numPatches = numImages*patchesPerImage
 patchSize = 8
 imageSize = 96
