@@ -96,7 +96,7 @@ for i in range(numPatches):
     imagesPatches[64:128, i] = patchesG[i,:]
     imagesPatches[128:192, i] = patchesB[i,:]
 
-#scipy.io.savemat('walterPatches.mat',{'patches':imagesPatches})
+scipy.io.savemat('walterPatches.mat',{'patches':imagesPatches})
 
 #print imagesPatches[:,0]
 #imgplot = plt.imshow(imagesPatches)
