@@ -1,0 +1,2 @@
+https://github.com/mttk/STL10/blob/master/stl10_input.py
+https://github.com/dusano/DeepLearning/blob/master/image_patches.py
