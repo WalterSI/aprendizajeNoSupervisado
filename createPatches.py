@@ -4,15 +4,11 @@ Created on Fri Nov 20 22:07:24 2015
 @author: Walter Sotomayor
 """
 
-# Based on CS294A/CS294W Programming Assignment Starter Code
 from numpy  import *
 import numpy as np
-#import matplotlib.pyplot as plt
 import scipy.io
-import h5py
 import datetime
 
-#def getPatches(numPatches, patchSize):
 
 dateInit = datetime.datetime.now()
 patchesPerImage = 1
@@ -20,10 +16,6 @@ numImages = 100000
 numPatches = numImages*patchesPerImage
 patchSize = 8
 imageSize = 96
-
-
-f = h5py.File('unlabeled.mat')
-X=f["X"]
 
 patchesR = zeros((numPatches, patchSize*patchSize))
 patchesG = zeros((numPatches, patchSize*patchSize))
@@ -66,7 +58,6 @@ patchesB = maximum(minimum(patchesB, pstdB), -pstdB) / pstdB
 patchesR = (patchesR + 1) * 0.4 + 0.1
 patchesG = (patchesG + 1) * 0.4 + 0.1
 patchesB = (patchesB + 1) * 0.4 + 0.1
-#imgplot2 = plt.imshow(patch)
 
 imagesPatches = np.zeros((patchSize*patchSize*3, numPatches))
 for i in range(numPatches):
@@ -77,5 +68,3 @@ for i in range(numPatches):
 scipy.io.savemat('walterPatches.mat',{'patches':imagesPatches})
 duration = datetime.datetime.now() - dateInit
 print duration
-#print imagesPatches[:,0]
-#imgplot = plt.imshow(imagesPatches)
