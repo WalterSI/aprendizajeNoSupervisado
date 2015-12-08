@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov 20 22:07:24 2015
-
-@author: USUARIO
+@author: Walter Sotomayor
 """
 
 # Based on CS294A/CS294W Programming Assignment Starter Code
@@ -16,7 +15,7 @@ import datetime
 #def getPatches(numPatches, patchSize):
 
 dateInit = datetime.datetime.now()
-patchesPerImage = 2
+patchesPerImage = 1
 numImages = 100000
 numPatches = numImages*patchesPerImage
 patchSize = 8
@@ -30,23 +29,24 @@ patchesR = zeros((numPatches, patchSize*patchSize))
 patchesG = zeros((numPatches, patchSize*patchSize))
 patchesB = zeros((numPatches, patchSize*patchSize))
 	
+train_X_file =  open("./data/stl10_binary/unlabeled_X.bin", "rb")
+data = np.fromfile(train_X_file, dtype=np.uint8)
+data = data.reshape(100000, 3, 96*96)
+
 for i in range(numImages):
     
-    valor1 = imageSize*imageSize
-    valor2 = valor1 + imageSize*imageSize
-    valor3 = valor2 + imageSize*imageSize
-    imgR = X[0:valor1,i].reshape(imageSize, imageSize)
-    imgG = X[valor1:valor2,i].reshape(imageSize, imageSize)
-    imgB = X[valor2:valor3,i].reshape(imageSize, imageSize)
+    img = np.column_stack([data[i][0], data[i][1], data[i][2]])
+    img = img.reshape(96, 96, 3)
     
     for j in range(patchesPerImage):
-
-        x = random.randint(imgR.shape[0] - patchSize)
-        y = random.randint(imgR.shape[1] - patchSize)
-
-        patchesR[i+j, :] = imgR[x:x+patchSize, y:y+patchSize].reshape(1, patchSize*patchSize)
-        patchesG[i+j, :] = imgG[x:x+patchSize, y:y+patchSize].reshape(1, patchSize*patchSize)
-        patchesB[i+j, :] = imgB[x:x+patchSize, y:y+patchSize].reshape(1, patchSize*patchSize)
+        x = random.randint(img.shape[0] - patchSize)
+        y = random.randint(img.shape[1] - patchSize)
+        imgR = img[x:x+patchSize, y:y+patchSize, 0]
+        imgG = img[x:x+patchSize, y:y+patchSize, 1]
+        imgB = img[x:x+patchSize, y:y+patchSize, 2]
+        patchesR[i+j, :] = imgR.reshape(1, patchSize*patchSize)
+        patchesG[i+j, :] = imgG.reshape(1, patchSize*patchSize)
+        patchesB[i+j, :] = imgB.reshape(1, patchSize*patchSize)
 
 print "paso for"
 # Remove DC (mean of images)
