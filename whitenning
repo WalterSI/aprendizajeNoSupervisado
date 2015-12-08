@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 25 00:19:11 2015
+
+@author: Walter Sotomayor
+"""
+
+import scipy.io
+import h5py
+import datetime
+import numpy as np
+
+#def getPatches(numPatches, patchSize):
+
+dateInit = datetime.datetime.now()
+numImages = 100000
+epsilon = 0.1 
+
+mat = scipy.io.loadmat('walterPatches.mat')
+patches = np.array(mat['patches'])
+#patches=patches[:,0:2]
+print len(patches[:,0])
+
+print "Paso 0"
+mean_patch = np.mean(patches, axis = 1, keepdims = True)  #obtiene la media de cada pixel
+patches       = patches - mean_patch
+print "Paso 1"
+sigma           = np.dot(patches, np.transpose(patches)) / numImages
+print "Paso 2"
+[u, s, v]       = np.linalg.svd(sigma)
+print "Paso 3"
+rescale_factors = np.diag(1 / np.sqrt(s + epsilon))
+print "Paso 4"
+zca_white       = np.dot(np.dot(u, rescale_factors), np.transpose(u));
+print "Paso 5"
+patches = np.dot(zca_white, patches)
+print "Paso 6"
+scipy.io.savemat('walterWhitePatches.mat',{'patches':patches})
